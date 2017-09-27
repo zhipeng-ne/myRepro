@@ -1,4 +1,4 @@
-function smooth = get_smoothComponent2(Image)
+function smooth = get_smoothComponent(Image)
     factor    =  2;                 % Change this for different zooming factors e.g. 2, 3 and 4
     %padPix    =  8;
     lambda    =  0.02;

@@ -88,7 +88,7 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
         Entropy = new_entropy;
        [is_change,expend_pos,csc_pos,new_model,new_entropy] = Track2(im,frame,csc_gt,model,Entropy);
        
-        Im_LRsm=get_smoothComponent2(Image);
+        Im_LRsm=get_smoothComponent(Image);
         im = Im_LRsm;
 %      figure,imshow(im,[]);
         window_sz=[size(im,1),size(im,2)];      

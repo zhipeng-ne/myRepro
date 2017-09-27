@@ -1,4 +1,4 @@
-function [ Z, Chara_100, Chara_200, Chara_300, Chara_400] = CSC_ADMM_CPU( Filters, FX, MaxIter, lambda, rho, mu0 )
+function [ Z ] = CSC_ADMM_CPU( Filters, FX, MaxIter, lambda, rho, mu0 )
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 max_mu = 1e8;
@@ -46,26 +46,26 @@ end
 Z = real(Z);
 
 
- SS = Z(:,:,1);
-   for j = 2:400
-       z = Z(:,:,j); 
-       SS = SS + z ;
-%      if mod(j,100) == 0
-%        imwrite(SS,['F:\targetTracking\picture\' num2str(j) '.jpg']);
-%        SS = 0;
-%      end
-    switch j
-        case 100
-            Chara_100 = SS;
-        case 200
-            Chara_200 = SS;
-        case 300
-            Chara_300 = SS;
-        case 400 
-            Chara_400 =SS;
-   %         imwrite(SS,['F:\targetTracking\picture\' num2str(4) '.jpg']);
-    end
-   end
+%  SS = Z(:,:,1);
+%    for j = 2:400
+%        z = Z(:,:,j); 
+%        SS = SS + z ;
+% %      if mod(j,100) == 0
+% %        imwrite(SS,['F:\targetTracking\picture\' num2str(j) '.jpg']);
+% %        SS = 0;
+% %      end
+%     switch j
+%         case 100
+%             Chara_100 = SS;
+%         case 200
+%             Chara_200 = SS;
+%         case 300
+%             Chara_300 = SS;
+%         case 400 
+%             Chara_400 =SS;
+%    %         imwrite(SS,['F:\targetTracking\picture\' num2str(4) '.jpg']);
+%     end
+%    end
 end
 
 

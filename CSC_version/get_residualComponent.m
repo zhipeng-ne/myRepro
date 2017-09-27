@@ -1,4 +1,4 @@
-function  [ residual ] = Filter_Z(Image) 
+function  [ residual ] = get_residualComponent(Image) 
 % Parameter setting
 factor    =  2;                 % Change this for different zooming factors e.g. 2, 3 and 4
 padPix    =  8;
@@ -83,7 +83,6 @@ HR_FZ = fft2(HRZ);
 % residual component
 residual = real(ifft2(sum(HR_FZ.*HR_Filters,3)));
 residual =residual(factor*padPix+1:end-factor*padPix,factor*padPix+1:end-factor*padPix);
-
-
+residual(residual<0) = 0;
 
 end
