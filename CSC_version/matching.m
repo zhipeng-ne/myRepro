@@ -1,6 +1,6 @@
 function [ similarity ] = matching( template ,residual )
     [tem_w,tem_h] = size(template);
-    [res_w,res_h] = sizze(residual);
+    [res_w,res_h] = size(residual);
     width = min(tem_w,res_w);
     heigh = min(tem_h,res_h);
     if ~(tem_w == res_w && tem_h==res_h)

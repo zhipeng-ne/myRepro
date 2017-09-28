@@ -70,29 +70,22 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
     
     %addpath('F:\targetTracking\CSC_version_final2\CSC2');
     new_model=[];
-    new_entropy = [];
 	for frame = 1:numel(img_files)
 		%load image
 		im = imread([video_path img_files{frame}]);
         image=im;
 %----------------------------CSC-------------------------------------
-        
-%        [expos, extarget_sz, cen_pos] = expand(pos, target_sz);
-%       Image = imcrop(im, [expos, extarget_sz]);
-         Image = get_subwindow(im, pos, window_sz);
-%       [ Im_LRsm, LR_Z,Chara_100, Chara_200, Chara_300, Chara_400] = Filter_Z(Image);
-        
-        csc_gt=[pos([2,1])-floor(target_sz([2,1])/2),target_sz([2,1])];
-            
+
+        Image = get_subwindow(im, pos, window_sz);       
+        csc_gt=[pos([2,1])-floor(target_sz([2,1])/2),target_sz([2,1])];            
         model = new_model;
-        Entropy = new_entropy;
-       [is_change,expend_pos,csc_pos,new_model,new_entropy] = Track2(im,frame,csc_gt,model,Entropy);
+        
+       [expend_pos,csc_pos,new_model] = updateModel(im,frame,csc_gt,model);
        
         Im_LRsm=get_smoothComponent(Image);
         im = Im_LRsm;
 %      figure,imshow(im,[]);
         window_sz=[size(im,1),size(im,2)];      
-
 %        pos = cen_pos;
 
 %        model=get_model(Chara_400,cen_pos,target_sz);
@@ -185,11 +178,9 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
         temp_pos = pos;
         
         pos = 0.4*csc_pos+0.6*temp_pos; 
-        if frame ~= 1 && is_change == 1
-            cut_pos = round(pos([2,1])-target_sz([2,1])/2-expend_pos);
-            for i = 1:size(new_model,3)     
-               temp(:,:,i) = imcrop(new_model(:,:,i),[cut_pos,target_sz([2,1])]); 
-            end
+        if frame ~= 1
+            cut_pos = round(pos([2,1])-target_sz([2,1])/2-expend_pos);              
+            temp = imcrop(new_model,[cut_pos,target_sz([2,1])]); 
             clear new_model;
             new_model = temp;
         end
