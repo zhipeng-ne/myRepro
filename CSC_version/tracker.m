@@ -38,7 +38,26 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
 
 	%if the target is large, lower the resolution, we don't need that much
 	%detail
-    img_path = [video_path(1:end-4) num2str(1) '/'];
+    %%   save path
+    temp = regexp(video_path, '/', 'split');
+    video_name = temp{size(temp,2)-2};
+    result_path = [];
+    for i = 1:size(temp,2) - 4
+        result_path = [result_path,temp{i},'/'];
+    end
+    clear temp ;
+    result_path = [result_path,'result','/'];
+    img_path = [result_path, video_name,'/'];
+    if ~isdir(result_path)
+        mkdir(result_path);
+    end
+    if ~isdir(img_path)
+        mkdir(img_path);
+    end
+
+     
+    %%
+    
 	resize_image = (sqrt(prod(target_sz)) >= 100);  %diagonal size >= threshold
 	if resize_image
 		pos = floor(pos / 2);
@@ -74,6 +93,7 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
 		%load image
 		im = imread([video_path img_files{frame}]);
         image=im;
+%%
 %----------------------------CSC-------------------------------------
 
         Image = get_subwindow(im, pos, window_sz);       
@@ -90,8 +110,9 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
 
 %        model=get_model(Chara_400,cen_pos,target_sz);
 %        imwrite(model,['F:\targetTracking\picture\' num2str(4) '.jpg']);
-
 %----------------------------CSC-------------------------------------
+
+%%
 		if size(im,3) > 1
 			im = rgb2gray(im);
 		end

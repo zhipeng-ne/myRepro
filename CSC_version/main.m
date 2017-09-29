@@ -94,14 +94,14 @@ function [precision, fps] = main(video, kernel_type, feature_type, show_visualiz
 
 
 	switch video
-	case 'choose',
+	case 'choose'
 		%ask the user for the video, then call self with that video name.
 		video = choose_video(base_path);
-		if ~isempty(video),
+		if ~isempty(video)
 			[precision, fps] = main(video, kernel_type, ...
 				feature_type, show_visualization, show_plots);
 			
-			if nargout == 0,  %don't output precision as an argument
+			if nargout == 0 %don't output precision as an argument
 				clear precision
 			end
 		end
@@ -125,7 +125,7 @@ function [precision, fps] = main(video, kernel_type, feature_type, show_visualiz
 
 		fprintf('%12s - Precision (20px):% 1.3f, FPS:% 4.2f\n', video, precisions(20), fps)
 
-		if nargout > 0,
+		if nargout > 0
 			%return precisions at a 20 pixels threshold
 			precision = precisions(20);
 		end

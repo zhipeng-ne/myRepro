@@ -1,9 +1,4 @@
-function [precision, fps] = run(video,base_path)
-    if isdir([base_path video '/' num2str(1)])
-        
-    else 
-        mkdir([base_path video '/' num2str(1)]);
-    end
+function [precision, fps] = run(video,base_path)  
         %path to the videos (you'll be able to choose one with the GUI).
 
 
@@ -80,14 +75,24 @@ function [precision, fps] = run(video,base_path)
 			padding, kernel, lambda, output_sigma_factor, interp_factor, ...
 			cell_size, features, show_visualization);
         
-        Locate = [base_path video '/' num2str(1) '/'];
+        
+
+%%     
+      temp = regexp(video_path, '/', 'split');
+      result_path = [];
+      for i = 1:size(temp,2) - 2
+        result_path = [result_path,temp{i},'/'];
+      end
+      result_path = [result_path,'result','/'];
+      
+        Locate = [result_path video '/'];
         Locate_file= [Locate video '.txt'];
         locate = [positions, repmat(target_sz',[1,size(positions,1)])'];
         locate = round(locate');
         fid = fopen(Locate_file,'w');
         fprintf(fid,'%d %d %d %d\r\n',locate);
         fclose(fid);
-        
+%%        
 		%calculate and show precision plot, as well as frames-per-second
 		precisions = precision_plot(positions, ground_truth, video, show_plots);
 		fps = numel(img_files) / time;
