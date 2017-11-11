@@ -78,12 +78,18 @@ function [precision, fps] = run(video,base_path)
         
 
 %%     
-      temp = regexp(video_path, '/', 'split');
-      result_path = [];
-      for i = 1:size(temp,2) - 2
-        result_path = [result_path,temp{i},'/'];
-      end
-      result_path = [result_path,'result','/'];
+    temp = regexp(video_path, '[/\\]', 'split');
+    video_name = temp{size(temp,2)-2};
+    
+    index = 0;
+    result_path =[];
+    for i = 1:size(temp,2)
+        index = regexp(temp{i}, 'd+a+t+a');
+        if(~isempty(index))
+            result_path = [temp{i-1},'/','result','/'];
+            break;
+        end
+    end
       
         Locate = [result_path video '/'];
         Locate_file= [Locate video '.txt'];

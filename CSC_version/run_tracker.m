@@ -40,7 +40,7 @@
 function [precision, fps] = run_tracker(video, kernel_type, feature_type, show_visualization, show_plots)
 
 	%path to the videos (you'll be able to choose one with the GUI).
-	base_path = 'F:\targetTracking\data';
+	base_path = 'E:\database';
 
 	%default settings
 	if nargin < 1, video = 'choose'; end
@@ -118,13 +118,27 @@ function [precision, fps] = run_tracker(video, kernel_type, feature_type, show_v
 		[positions, time] = tracker(video_path, img_files, pos, target_sz, ...
 			padding, kernel, lambda, output_sigma_factor, interp_factor, ...
 			cell_size, features, show_visualization);
-        
-        Locate = 'F:\targetTracking\picture\';
+ %%       
+            temp = regexp(video_path, '[/\\]', 'split');
+    
+    
+    index = 0;
+    result_path =[];
+    for i = 1:size(temp,2)
+        index = regexp(temp{i}, 'd+a+t+a', 'once');
+        if(~isempty(index))
+            result_path = [temp{i-1},'/','result','/'];
+            break;
+        end
+    end
+  %%    
+        Locate = [result_path video '/'];
         Locate_file= [Locate video '.txt'];
         locate = [positions, repmat(target_sz',[1,size(positions,1)])'];
         locate = round(locate);
+        result = locate';
         fid = fopen(Locate_file,'w');
-        fprintf(fid,'%d %d %d %d\r\n',locate);
+        fprintf(fid,'%d %d %d %d\r\n',result);
         fclose(fid);
         
 		%calculate and show precision plot, as well as frames-per-second

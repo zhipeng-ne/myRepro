@@ -41,17 +41,15 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
     %%   save path
     temp = regexp(video_path, '[/\\]', 'split');
     video_name = temp{size(temp,2)-2};
-    
+    result_path = [];
     index = 0;
-    result_path =[];
     for i = 1:size(temp,2)
-        index = regexp(temp{i}, 'd+a+t+a', 'once');
-        if(~isempty(index))
-            result_path = [temp{i-1},'/','result','/'];
-            break;
-        end
-    end
+        str = temp{i};
         
+        
+    end
+    clear temp ;
+    result_path = [result_path,'result','/'];
     img_path = [result_path, video_name,'/'];
     if ~isdir(result_path)
         mkdir(result_path);

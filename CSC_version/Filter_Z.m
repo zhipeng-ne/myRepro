@@ -63,8 +63,8 @@ LRsm        = ifft2(FLRsm);  %smooth compenent   对FLRsm进行反傅立叶变换
 HRsm        = imresize(LRsm,factor,'bic');     %放大两倍
 
 % Solving convolutional sparse coding problem
-%LR_Z = CSC_ADMM_GPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
-LR_Z = CSC_ADMM_CPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
+LR_Z = CSC_ADMM_GPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
+%LR_Z = CSC_ADMM_CPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
 %-----------------------------END------------------------------------------
 
 % Predict HR coefficients by W   
