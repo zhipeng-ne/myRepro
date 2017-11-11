@@ -1,6 +1,6 @@
 function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
 	padding, kernel, lambda, output_sigma_factor, interp_factor, cell_size, ...
-	features, show_visualization)
+	features, show_visualization,result_path)
 %TRACKER Kernelized/Dual Correlation Filter (KCF/DCF) tracking.
 %   This function implements the pipeline for tracking with the KCF (by
 %   choosing a non-linear kernel) and DCF (by choosing a linear kernel).
@@ -41,26 +41,9 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
     %%   save path
     temp = regexp(video_path, '[/\\]', 'split');
     video_name = temp{size(temp,2)-2};
-    
-    index = 0;
-    result_path =[];
-    for i = 1:size(temp,2)
-        index = regexp(temp{i}, 'd+a+t+a', 'once');
-        if(~isempty(index))
-            result_path = [temp{i-1},'/','result','/'];
-            break;
-        end
-    end
-        
-    img_path = [result_path, video_name,'/'];
-    if ~isdir(result_path)
-        mkdir(result_path);
-    end
-    if ~isdir(img_path)
-        mkdir(img_path);
-    end
 
-     
+    img_path = [result_path, video_name,'/'];
+
     %%
     
 	resize_image = (sqrt(prod(target_sz)) >= 100);  %diagonal size >= threshold
@@ -192,7 +175,7 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
 		%save position and timing
         
   %-----------------weighting---------- %----------****----------------------------
-        figure(frame+1),imshow(image);
+        figure(frame+1),imshow(image,'border','tight');
         if numel(csc_pos) == 0    
             csc_pos = pos;
         else 
@@ -202,11 +185,13 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
         rectangle('Position',[pos([2,1]) - target_sz([2,1])/2, target_sz([2,1])],'EdgeColor','c');
         
         temp_pos = pos;
-        
+        clear temp;
         pos = 0.4*csc_pos+0.6*temp_pos; 
         if frame ~= 1
-            cut_pos = round(pos([2,1])-target_sz([2,1])/2-expend_pos);              
-            temp = imcrop(new_model,[cut_pos,target_sz([2,1])]); 
+            cut_pos = round(pos([2,1])-target_sz([2,1])/2-expend_pos);
+            for i = 1:size(new_model,3)     
+               temp(:,:,i) = imcrop(new_model(:,:,i),[cut_pos,target_sz([2,1])]); 
+            end
             clear new_model;
             new_model = temp;
         end
@@ -223,6 +208,7 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
             rectangle('Position',[pos([2,1]) - target_sz([2,1])/2, target_sz([2,1])],'EdgeColor','y');
    
            saveas(frame+1,strcat(img_path, num2str(frame) ,'.jpg'));
+           close(figure(frame+1));
             %----------------------------------------------&&&&---         
 			stop = update_visualization(frame, box);
 			if stop, break, end  %user pressed Esc, stop early

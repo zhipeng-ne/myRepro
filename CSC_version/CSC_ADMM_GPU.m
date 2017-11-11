@@ -1,4 +1,4 @@
-function [  Z ] = CSC_ADMM_GPU( Filters, FX, MaxIter, lambda, rho, mu0 )
+function [  Z, Chara_200, Chara_400, Chara_600, Chara_800] = CSC_ADMM_GPU( Filters, FX, MaxIter, lambda, rho, mu0 )
 
 % Solve convolutional sparse coding problem by ADMM algorithm 
 % Filters is the FFT coefficients of decomposition filters
@@ -51,24 +51,24 @@ while(iter<MaxIter&&Cond)
 end
  
  Z = real(gather(Z));
-%  SS = Z(:,:,1);
-%    for j = 2:400
-%        z = Z(:,:,j); 
-%        SS = SS + z ;
-% %       if mod(j,10) == 0
-% %         imwrite(SS,['C:\Users\hicv\Desktop\ÌØÕ÷Í¼Æ¬_10\' num2str(j) '.jpg']);
-% % %        SS = 0;
-% %       end
-%     switch j
-%         case 100
-%             Chara_100 = SS;
-%         case 200
-%             Chara_200 = SS;
-%         case 300
-%             Chara_300 = SS;
-%         case 400 
-%             Chara_400 =SS;
-%    %         imwrite(SS,['F:\targetTracking\picture\' num2str(4) '.jpg']);
-%     end
-%    end
+ SS = Z(:,:,1);
+   for j = 2:800
+       z = Z(:,:,j); 
+       SS = SS + z ;
+     switch j
+        case 200
+            Chara_200 = SS;
+        case 400
+            Chara_400 = SS;
+        case 600
+            Chara_600 = SS;
+        case 800 
+            Chara_800 =SS;
+            %imwrite(SS,['F:\targetTracking\picture\' num2str(4) '.jpg']);
+     end
+     if mod(j,200) == 0
+       %imwrite(SS,['F:\targetTracking\picture\' num2str(j) '.jpg']);
+       SS = 0;
+     end
+   end
 end

@@ -40,7 +40,11 @@
 function [precision, fps] = run_tracker(video, kernel_type, feature_type, show_visualization, show_plots)
 
 	%path to the videos (you'll be able to choose one with the GUI).
-	base_path = 'E:\database';
+    %%
+    
+    %%
+    
+	base_path = 'F:\targetTracking\data';
 
 	%default settings
 	if nargin < 1, video = 'choose'; end
@@ -112,26 +116,41 @@ function [precision, fps] = run_tracker(video, kernel_type, feature_type, show_v
 	
 		%get image file names, initial state, and ground truth for evaluation
 		[img_files, pos, target_sz, ground_truth, video_path] = load_video_info(base_path, video);
-		
-		
-		%call tracker function with all the relevant parameters
-		[positions, time] = tracker(video_path, img_files, pos, target_sz, ...
-			padding, kernel, lambda, output_sigma_factor, interp_factor, ...
-			cell_size, features, show_visualization);
- %%       
-            temp = regexp(video_path, '[/\\]', 'split');
-    
-    
-    index = 0;
-    result_path =[];
-    for i = 1:size(temp,2)
-        index = regexp(temp{i}, 'd+a+t+a', 'once');
-        if(~isempty(index))
-            result_path = [temp{i-1},'/','result','/'];
-            break;
+        %%
+        temp = regexp(video_path, '[/\\]', 'split');   
+        match = 0;
+        index = 1;
+        result_path =[];
+        for i = 1:size(temp,2)
+            match = regexp(temp{i}, 'd+a+t+a', 'once');
+            if(~isempty(match))
+                index = i-1;
+                break;
+            end
         end
-    end
-  %%    
+        
+        for i=1:index
+           result_path = [result_path,temp{i},'/'];            
+        end
+        result_path = [result_path,'result','/']; 
+        img_path = [result_path, video,'/'];
+        if ~isdir(result_path)
+            mkdir(result_path);
+        end
+        if ~isdir(img_path)
+            mkdir(img_path);
+        end
+        close all;
+        %%
+		%call tracker function with all the relevant parameters
+		%%[positions, time] = tracker(video_path, img_files, pos, target_sz, ...
+		%%	padding, kernel, lambda, output_sigma_factor, interp_factor, ...
+			%%cell_size, features, show_visualization); 
+        [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
+			padding, kernel, lambda, output_sigma_factor, interp_factor, ...
+			cell_size, features, show_visualization,result_path); 
+        
+       
         Locate = [result_path video '/'];
         Locate_file= [Locate video '.txt'];
         locate = [positions, repmat(target_sz',[1,size(positions,1)])'];
