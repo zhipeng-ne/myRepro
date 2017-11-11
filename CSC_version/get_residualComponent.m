@@ -25,8 +25,8 @@ end
 
 
 % Generate LR image for testing
-%LRimage = double(imresize(Image,1/factor,'bicubic')); %降分辨率
-LRimage=double(Image);
+LRimage = double(imresize(Image,1/factor,'bicubic')); %降分辨率
+%LRimage=double(Image);
 TapLRimage = padarray(LRimage,[padPix,padPix],'replicate','both');
 
 for a=1:4
@@ -66,24 +66,13 @@ FLRsm    =  SM_Filter.*FZsm;
 %LR_Z = CSC_ADMM_GPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
 %LR_Z = CSC_ADMM_CPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
 %-----------------------------END------------------------------------------
-   [ LR_Z, Chara_200, Chara_400, Chara_600, Chara_800] = CSC_ADMM_CPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
-   %[ LR_Z, Chara_200, Chara_400, Chara_600, Chara_800] = CSC_ADMM_GPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
-   temp=uint8(Chara_200(9:(size(Chara_200,1)-8),9:(size(Chara_200,2)-8)));
-   %temp2= imresize(temp,factor,'bic');
-   clear Chara_200; Chara_200=temp; clear temp;clear temp2;
-   model(:,:,1)=Chara_200;
-   temp=uint8(Chara_400(9:(size(Chara_400,1)-8),9:(size(Chara_400,2)-8)));
-%   temp2= imresize(temp,factor,'bic');
-   clear Chara_400; Chara_400=temp; clear temp;clear temp2;
-   model(:,:,2)=Chara_400;
-   temp=uint8(Chara_600(9:(size(Chara_600,1)-8),9:(size(Chara_600,2)-8)));
-%   temp2= imresize(temp,factor,'bic');
-   clear Chara_300; Chara_600=temp; clear temp;clear temp2;
-   model(:,:,3)=Chara_600;
-   temp=uint8(Chara_800(9:(size(Chara_800,1)-8),9:(size(Chara_800,2)-8)));
- %  temp2= imresize(temp,factor,'bic');
-   clear Chara_400; Chara_800=temp; clear temp;clear temp2;
-   model(:,:,4)=Chara_800;   
-   %model(:,:,1:4) = [ Chara_100, Chara_200, Chara_300, Chara_400];
-
+   %[ LR_Z, residual] = CSC_ADMM_CPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
+   [ LR_Z, residual] = CSC_ADMM_GPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
+   
+   for i=1:size(residual,3)       
+      temp1(:,:,i) =imresize(residual(:,:,i),factor,'bic');     %放大两倍       
+   end 
+   temp1=uint8(temp1);
+   model = temp1(factor*padPix+1:end-factor*padPix,factor*padPix+1:end-factor*padPix,:);
+    clear temp1;
 end

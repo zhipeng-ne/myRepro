@@ -1,4 +1,4 @@
-function [  Z, Chara_200, Chara_400, Chara_600, Chara_800] = CSC_ADMM_GPU( Filters, FX, MaxIter, lambda, rho, mu0 )
+function [  Z,residual] = CSC_ADMM_GPU( Filters, FX, MaxIter, lambda, rho, mu0 )
 
 % Solve convolutional sparse coding problem by ADMM algorithm 
 % Filters is the FFT coefficients of decomposition filters
@@ -57,13 +57,17 @@ end
        SS = SS + z ;
      switch j
         case 200
-            Chara_200 = SS;
+            %Chara_200 = SS;
+            residual(:,:,1)=SS;
         case 400
-            Chara_400 = SS;
+            %Chara_400 = SS;
+            residual(:,:,2)=SS;
         case 600
-            Chara_600 = SS;
+            %Chara_600 = SS;
+            residual(:,:,3)=SS;
         case 800 
-            Chara_800 =SS;
+            %Chara_800 =SS;
+            residual(:,:,4)=SS;
             %imwrite(SS,['F:\targetTracking\picture\' num2str(4) '.jpg']);
      end
      if mod(j,200) == 0

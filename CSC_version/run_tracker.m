@@ -44,7 +44,7 @@ function [precision, fps] = run_tracker(video, kernel_type, feature_type, show_v
     
     %%
     
-	base_path = 'F:\targetTracking\data';
+	base_path = 'E:\database\';
 
 	%default settings
 	if nargin < 1, video = 'choose'; end

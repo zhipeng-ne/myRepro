@@ -22,7 +22,8 @@ end
     %   Euclidean distance
 
     %   Entropy
-    one = uint8(ones(width,heigh)); 
+    one = uint8(ones(width,heigh));
+    
     entropy =double(TChara_200).*log2(double(Chara_200+one));
     entropy_1 = sum(entropy(:));
 
