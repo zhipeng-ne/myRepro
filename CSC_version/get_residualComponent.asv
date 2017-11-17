@@ -73,7 +73,6 @@ FLRsm    =  SM_Filter.*FZsm;
       ima = imresize(residual(:,:,i),factor,'bic');     %∑≈¥Û¡Ω±∂  
       ima(ima<0)=0;
       ima(ima>1)=1;
-      ima = ima*255;
       temp1(:,:,i) =uint8(ima);
    end 
    
