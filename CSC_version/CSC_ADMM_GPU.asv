@@ -65,12 +65,13 @@ end
         case 300
             %Chara_600 = SS;
             residual(:,:,3)=SS;
-        case 400 
+        case 800 
             %Chara_800 =SS;
-            residual(:,:,4)=SS;     
+            residual(:,:,4)=SS;
+            %imwrite(SS,['F:\targetTracking\picture\' num2str(4) '.jpg']);
      end
      %if mod(j,200) == 0
-       %imwrite(SS,['E:\result\' num2str(j) '.jpg']);
+       %imwrite(SS,['F:\targetTracking\picture\' num2str(j) '.jpg']);
        %SS = 0;
      %end
    end

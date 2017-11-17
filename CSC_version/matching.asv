@@ -38,6 +38,6 @@ end
     entropy (entropy>0)=1;
     entropy_4 = sum(entropy(:));
 
-    similarity = (entropy_1*(1/16) + entropy_2*(1/8) + entropy_3*(1/4) + entropy_4*(9/16));
+    similarity = (entropy_1*(1/16) + entropy_2*(1/8) + entropy_3*(1/4) + entropy_4*(1/4));
     
 end

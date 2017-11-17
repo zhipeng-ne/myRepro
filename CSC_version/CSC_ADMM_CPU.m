@@ -64,10 +64,10 @@ Z = real(Z);
             residual(:,:,4)=SS;
             %imwrite(SS,['F:\targetTracking\picture\' num2str(4) '.jpg']);
      end
-     if mod(j,200) == 0
+     %if mod(j,200) == 0
        %imwrite(SS,['F:\targetTracking\picture\' num2str(j) '.jpg']);
-       SS = 0;
-     end
+       %SS = 0;
+     %end
    end
 end
 
