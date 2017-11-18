@@ -24,18 +24,19 @@ end
     %   Entropy
     one = uint8(ones(width,heigh)); 
     entropy =double(TChara_1).*log2(double(Chara_1+one));
-    entropy (entropy>0)=1;
+    %entropy (entropy>0)=1;
     entropy_1 = sum(entropy(:));
 
     entropy =double(TChara_2).*log2(double(Chara_2+one));
-    entropy (entropy>0)=1;
+    %entropy (entropy>0)=1;
     entropy_2 = sum(entropy(:));
+    
     entropy =double(TChara_3).*log2(double(Chara_3+one));
-    entropy (entropy>0)=1;
+    %entropy (entropy>0)=1;
     entropy_3 = sum(entropy(:));        
     
     entropy =double(TChara_4).*log2(double(Chara_4+one));
-    entropy (entropy>0)=1;
+    %entropy (entropy>0)=1;
     entropy_4 = sum(entropy(:));
 
     similarity = (entropy_1*(1/16) + entropy_2*(1/8) + entropy_3*(1/4) + entropy_4*(9/16));

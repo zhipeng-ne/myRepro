@@ -50,22 +50,21 @@ Z = real(Z);
        z = Z(:,:,j); 
        SS = SS + z ;
      switch j
-        case 200
+        case 100
             %Chara_200 = SS;
             residual(:,:,1)=SS;
-        case 400
+        case 200
             %Chara_400 = SS;
             residual(:,:,2)=SS;
-        case 600
+        case 300
             %Chara_600 = SS;
             residual(:,:,3)=SS;
-        case 800 
+        case 400 
             %Chara_800 =SS;
-            residual(:,:,4)=SS;
-            %imwrite(SS,['F:\targetTracking\picture\' num2str(4) '.jpg']);
+            residual(:,:,4)=SS;     
      end
      %if mod(j,200) == 0
-       %imwrite(SS,['F:\targetTracking\picture\' num2str(j) '.jpg']);
+       %imwrite(SS,['E:\result\' num2str(j) '.jpg']);
        %SS = 0;
      %end
    end
