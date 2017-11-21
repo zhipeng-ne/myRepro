@@ -1,5 +1,5 @@
 function [exp_pos,position,new_model] = updateModel(im,frame,gt,last_model)
-    padding = 1.5;
+    padding = 1;
     window_sz=gt(1,3:4)*(1+padding);
 
     expend_pos= gt(1,1:2)+gt(1,3:4)/2-window_sz/2;
