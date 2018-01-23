@@ -66,8 +66,8 @@ FLRsm    =  SM_Filter.*FZsm;
 %LR_Z = CSC_ADMM_GPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
 %LR_Z = CSC_ADMM_CPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
 %-----------------------------END------------------------------------------
-   %[ LR_Z, residual] = CSC_ADMM_CPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
-   [ LR_Z, residual] = CSC_ADMM_GPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
+   [ LR_Z, residual] = CSC_ADMM_CPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
+   %[ LR_Z, residual] = CSC_ADMM_GPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
    
    for i=1:size(residual,3)       
       ima = imresize(residual(:,:,i),factor,'bic');     %∑≈¥Û¡Ω±∂  

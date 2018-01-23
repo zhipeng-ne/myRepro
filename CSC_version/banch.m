@@ -7,10 +7,11 @@ function banch()
 	names = {};
 	for k = 1:numel(contents)
 		name = contents(k).name;
-		if ~any(strcmp(name, {'.', '..'}))
+		if ~any(strcmp(name, {'.','..'}))
 			names{end+1} = name;      
         end
     end
+    
     for i=1:size(names,2)
         try  
             close all;

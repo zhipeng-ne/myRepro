@@ -38,19 +38,18 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
 
 	%if the target is large, lower the resolution, we don't need that much
 	%detail
-    %%   save path
+    %   save path
     temp = regexp(video_path, '[/\\]', 'split');
     video_name = temp{size(temp,2)-2};
 
     img_path = [result_path, video_name,'/'];
 
-    %%
-    
-	resize_image = (sqrt(prod(target_sz)) >= 100);  %diagonal size >= threshold
-	if resize_image
-		pos = floor(pos / 2);
-		target_sz = floor(target_sz / 2);
-	end
+	%resize_image = (sqrt(prod(target_sz)) >= 100);  %diagonal size >= threshold
+    resize_image = 0;
+	%if resize_image
+	%	pos = floor(pos / 2);
+	%	target_sz = floor(target_sz / 2);
+	%end
 
 	%window size, taking padding into account
 	window_sz = floor(target_sz * (1 + padding));
@@ -81,9 +80,7 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
 		%load image
 		im = imread([video_path img_files{frame}]);
         image=im;
-%%
 %----------------------------CSC-------------------------------------
-
         Image = get_subwindow(im, pos, window_sz);       
         csc_gt=[pos([2,1])-floor(target_sz([2,1])/2),target_sz([2,1])];            
         model = new_model;
@@ -100,13 +97,13 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
 %        imwrite(model,['F:\targetTracking\picture\' num2str(4) '.jpg']);
 %----------------------------CSC-------------------------------------
 
-%%
+
 		if size(im,3) > 1
 			im = rgb2gray(im);
 		end
-		if resize_image
-			im = imresize(im, 0.5);
-		end
+% 		if resize_image
+% 			im = imresize(im, 0.5);
+% 		end
 
 		tic()
 
@@ -186,7 +183,8 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
         
         temp_pos = pos;
         clear temp;
-        pos = 0.4*csc_pos+0.6*temp_pos; 
+ %       pos = 0.4*csc_pos+0.6*temp_pos; 
+        pos = 0.3*csc_pos+0.7*temp_pos; 
         if frame ~= 1
             cut_pos = round(pos([2,1])-target_sz([2,1])/2-expend_pos);
             for i = 1:size(new_model,3)     
@@ -219,8 +217,8 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
 		
 	end
 
-	if resize_image
-		positions = positions * 2;
-	end
+% 	if resize_image
+% 		positions = positions * 2;
+% 	end
 end
 
