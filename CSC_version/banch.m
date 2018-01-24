@@ -13,15 +13,15 @@ function banch()
     end
     
     for i=1:size(names,2)
-        try  
+        %try  
             close all;
             clearvars -EXCEPT base_path contents i name names
             
             run(names{1,i},base_path);
             
             close all;
-        catch
-            error_handle(base_path,names{1,i});
-        end
+        %catch
+         %   error_handle(base_path,names{1,i});
+        %end
     end
 end

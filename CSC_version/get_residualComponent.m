@@ -1,6 +1,7 @@
 function  [ model ] = get_residualComponent(Image) 
 % Parameter setting
-factor    =  2;                 % Change this for different zooming factors e.g. 2, 3 and 4
+factor    =  1;                 % Change this for different zooming factors e.g. 2, 3 and 4
+
 padPix    =  8;
 lambda    =  0.02;
 SmoothReg =  30;
@@ -25,8 +26,8 @@ end
 
 
 % Generate LR image for testing
-LRimage = double(imresize(Image,1/factor,'bicubic')); %降分辨率
-%LRimage=double(Image);
+%LRimage = double(imresize(Image,1/factor,'bicubic')); %降分辨率
+LRimage=double(Image);
 TapLRimage = padarray(LRimage,[padPix,padPix],'replicate','both');
 
 for a=1:4
@@ -66,15 +67,16 @@ FLRsm    =  SM_Filter.*FZsm;
 %LR_Z = CSC_ADMM_GPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
 %LR_Z = CSC_ADMM_CPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
 %-----------------------------END------------------------------------------
-   [ LR_Z, residual] = CSC_ADMM_CPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
-   %[ LR_Z, residual] = CSC_ADMM_GPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
+   %[ LR_Z, residual] = CSC_ADMM_CPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
+   [ LR_Z, residual] = CSC_ADMM_GPU( LR_Filters, FLR - FLRsm, 1000, lambda, 1.10, 0.05 );
    
    for i=1:size(residual,3)       
-      ima = imresize(residual(:,:,i),factor,'bic');     %放大两倍  
-      ima(ima<0)=0;
-      ima(ima>1)=1;
-      ima = ima*255;
-      temp1(:,:,i) =uint8(ima);
+      %ima = imresize(residual(:,:,i),factor,'bic');     %放大两倍  
+      %ima(ima<0)=0;
+      %ima(ima>1)=1;
+      %ima = ima*255;
+      %temp1(:,:,i) =uint8(ima);
+      temp1(:,:,i) =uint8(residual(:,:,i));
    end 
    
    model = temp1(factor*padPix+1:end-factor*padPix,factor*padPix+1:end-factor*padPix,:);

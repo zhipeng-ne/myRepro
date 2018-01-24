@@ -186,13 +186,15 @@ function [positions, time] = tracker(video_path, img_files, pos, target_sz, ...
         clear temp;
  %       pos = 0.4*csc_pos+0.6*temp_pos; 
         pos = 0.3*csc_pos+0.7*temp_pos; 
-        if frame ~= 1 && is_changed == 1
+        if frame ~= 1 && is_changed ==1
             cut_pos = round(pos([2,1])-target_sz([2,1])/2-expend_pos);
             for i = 1:size(new_model,3)     
                temp(:,:,i) = imcrop(new_model(:,:,i),[cut_pos,target_sz([2,1])]); 
             end
             clear new_model;
             new_model = temp;
+        else
+            new_model = model;
         end
    %--------------------------- %---------------------****-----------------
         

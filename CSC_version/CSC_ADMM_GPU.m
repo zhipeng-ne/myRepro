@@ -52,7 +52,7 @@ end
  
  Z = real(gather(Z));
  SS = Z(:,:,1);
-   for j = 2:800
+   for j = 2:400
        z = Z(:,:,j); 
        SS = SS + z ;
      switch j

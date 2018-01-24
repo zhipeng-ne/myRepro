@@ -51,7 +51,7 @@ function [exp_pos,position,new_model,new_entropy,is_changed] = updateModel(im,fr
            entropy(frame) = entropy(frame - 1);
         else     
             new_model = expImg_residual;   
-        end 
+         end 
         new_entropy=entropy;
 
         position = temp_pos;

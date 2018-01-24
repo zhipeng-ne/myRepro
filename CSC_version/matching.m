@@ -1,4 +1,4 @@
-function [ similarity ] = matching( template ,Chara_1,Chara_2,Chara_3,Chara_4 )
+function [ similarity,Entropy ] = matching( template ,Chara_1,Chara_2,Chara_3,Chara_4 )
     [tem_w,tem_h] = size(template(:,:,1));
     [res_w,res_h] = size(Chara_1);
     width = min(tem_w,res_w);
@@ -33,26 +33,26 @@ end
     euclidean = (TChara_4-Chara_4).^2;
     dist4= sqrt(sum(euclidean(:)));
     
-    similarity = dist1*1/16+dist2*1/8+dist3*1/41+dist4*9/16;
+    similarity = dist1*1/16+dist2*1/8+dist3*1/4+dist4*9/16;
     
 %     %   Entropy
-%      one = uint8(ones(width,heigh)); 
-%     entropy =double(TChara_1).*log2(double(Chara_1+one));
-%     %entropy (entropy>0)=1;
-%     entropy_1 = sum(entropy(:));
-% 
-%     entropy =double(TChara_2).*log2(double(Chara_2+one));
-%     %entropy (entropy>0)=1;
-%     entropy_2 = sum(entropy(:));
-%     
-%     entropy =double(TChara_3).*log2(double(Chara_3+one));
-%     %entropy (entropy>0)=1;
-%     entropy_3 = sum(entropy(:));        
-%     
-%     entropy =double(TChara_4).*log2(double(Chara_4+one));
-%     %entropy (entropy>0)=1;
-%     entropy_4 = sum(entropy(:));
+     one = uint8(ones(width,heigh)); 
+    entropy =double(TChara_1).*log2(double(Chara_1+one));
+    %entropy (entropy>0)=1;
+    entropy_1 = sum(entropy(:));
 
-%     similarity = (entropy_1*(1/16) + entropy_2*(1/8) + entropy_3*(1/4) + entropy_4*(9/16));
+    entropy =double(TChara_2).*log2(double(Chara_2+one));
+    %entropy (entropy>0)=1;
+    entropy_2 = sum(entropy(:));
+    
+    entropy =double(TChara_3).*log2(double(Chara_3+one));
+    %entropy (entropy>0)=1;
+    entropy_3 = sum(entropy(:));        
+    
+    entropy =double(TChara_4).*log2(double(Chara_4+one));
+    %entropy (entropy>0)=1;
+    entropy_4 = sum(entropy(:));
+
+    Entropy = (entropy_1*(1/16) + entropy_2*(1/8) + entropy_3*(1/4) + entropy_4*(9/16));
     
 end
